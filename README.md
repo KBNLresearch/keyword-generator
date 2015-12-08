@@ -23,5 +23,5 @@ Some examples of commands:
 - python keywords_tfidf.py
 - python keywords_tfidf.py -k 20 -d 100
 - python keywords_lda.py -k 10 -d 100 -t 5 -w 20
-- python keywords_lda.py -k 10 -d 100 -t 5 -w 20 -m /Users/Juliette/mallet-2.0.7/bin/mallet
+- python keywords_lda.py -k 10 -d 100 -t 5 -w 20 -m /usr/bin/local/mallet-2.0.7/bin/mallet
 
