@@ -14,14 +14,14 @@ The keyword generator offers two methods to extract relevant keywords from a col
 - w : number of words per topic (default 10)
 - k : number of keywords (default 10)
 - d : document length (the documents provided by the user will be split into parts containing the specified number of words; by default the documents will not be split.)
-- m : mallet path (full path to the Mallet executable; if not provided, Gensim's lda implementation will be used to generate topics.)
+- m : mallet path (full path to the [Mallet](http://mallet.cs.umass.edu) executable; if not provided, [Gensim](https://radimrehurek.com/gensim/)'s lda implementation will be used to generate topics.)
 
 Documents have to be placed in the data/documents folder, stop word lists in the data/stop_words folder. Keyword lists generated will be saved to a plain text file in the data/keywords directory. [Gensim](https://radimrehurek.com/gensim/) and [Mallet](http://mallet.cs.umass.edu) need to be installed locally.
 
 Some examples of commands:
 
-python keywords_tfidf.py
-python keywords_tfidf.py -k 20 -d 100
-python keywords_lda.py -k 10 -d 100 -t 5 -w 20
-python keywords_lda.py -k 10 -d 100 -t 5 -w 20 -m /Users/Juliette/mallet-2.0.7/bin/mallet
+- python keywords_tfidf.py
+- python keywords_tfidf.py -k 20 -d 100
+- python keywords_lda.py -k 10 -d 100 -t 5 -w 20
+- python keywords_lda.py -k 10 -d 100 -t 5 -w 20 -m /Users/Juliette/mallet-2.0.7/bin/mallet
 
