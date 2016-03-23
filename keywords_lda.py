@@ -168,11 +168,13 @@ def main():
     if mallet_path:
         print("Generating model with Mallet LDA ...")
         lda = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, id2word=dictionary, num_topics=num_topics)
+        topics = lda.show_topics(num_topics=num_topics, num_words=num_words, formatted=False)
     else:
         print("Generating model with Gensim LDA ...")
         lda = gensim.models.LdaModel(corpus, id2word=dictionary, num_topics=num_topics, alpha='auto', chunksize=1, eval_every=1)
+        gensim_topics = [t[1] for t in lda.show_topics(num_topics=num_topics, num_words=num_words, formatted=False)]
+        topics = [[(i[1], i[0]) for i in t] for t in gensim_topics]
 
-    topics = lda.show_topics(num_topics=num_topics, num_words=num_words, formatted=False)
     topics = exclude_topics(topics)
 
     keywords = generate_keywords(corpus, dictionary, topics, num_keywords)
