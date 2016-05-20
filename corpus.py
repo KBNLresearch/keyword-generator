@@ -85,7 +85,7 @@ class MyCorpus(object):
 
         print("Generating dictionary ...")
         self.dictionary = gensim.corpora.Dictionary(iter_docs(self.doclist, self.stoplist))
-        no_above = 0.95	
+        no_above = 0.95
         if len(self.doclist) < 5:
             no_above = 1
         self.dictionary.filter_extremes(no_below=2, no_above=no_above, keep_n=100000)

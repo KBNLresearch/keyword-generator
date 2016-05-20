@@ -104,20 +104,25 @@ def print_keywords(keywords):
 def export_keywords(keywords):
     filename = int(time.time())
     f = open("data" + os.sep + "keywords" + os.sep + str(filename) + ".txt", "w+")
-    i = 1
-    query = ""
-    query2 = ""
-    for k in keywords:
-        f.write(k[0])
+    keywords = [k[0] for k in keywords]
+    f.write("\n".join(keywords) + "\n\n")
+    f.write(" ".join(keywords) + "\n\n")
+    f.write(" OR ".join(keywords) + "\n")
+    f.close()
+
+
+def export_distributions(distributions):
+    filename = int(time.time())
+    f = open("data" + os.sep + "topic_distributions" + os.sep + str(filename) + ".csv", "w+")
+    f.write("Document")
+    for i in range(len(distributions[0])):
+        f.write(",Topic " + str(i + 1))
+    f.write("\n")
+    for dist in distributions:
+        f.write(str(distributions.index(dist)))
+        for topic in dist:
+            f.write("," + "{0:.5f}".format(topic[1]))
         f.write("\n")
-        if(i > 1):
-            query += " OR " + k[0]
-            query2 += " " + k[0]
-        else:
-            query += k[0]
-            query2 += k[0]
-        i += 1
-    f.write("\n" + query + "\n\n" + query2)
     f.close()
 
 
@@ -169,18 +174,26 @@ def main():
         print("Generating model with Mallet LDA ...")
         lda = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, id2word=dictionary, num_topics=num_topics)
         topics = lda.show_topics(num_topics=num_topics, num_words=num_words, formatted=False)
+        distributions = [dist for dist in lda.load_document_topics()]
     else:
         print("Generating model with Gensim LDA ...")
         lda = gensim.models.LdaModel(corpus, id2word=dictionary, num_topics=num_topics, alpha='auto', chunksize=1, eval_every=1)
         gensim_topics = [t[1] for t in lda.show_topics(num_topics=num_topics, num_words=num_words, formatted=False)]
         topics = [[(i[1], i[0]) for i in t] for t in gensim_topics]
+        distributions = []
+        matrix = gensim.matutils.corpus2csc(corpus)
+        for i in range(matrix.get_shape()[1]):
+            bow = gensim.matutils.scipy2sparse(matrix.getcol(i).transpose())
+            distributions.append(lda.get_document_topics(bow, 0))
 
     topics = exclude_topics(topics)
 
     keywords = generate_keywords(corpus, dictionary, topics, num_keywords)
     print("Keywords generated:")
     print_keywords(keywords)
+
     export_keywords(keywords)
+    export_distributions(distributions)
 
 
 if __name__ == "__main__":

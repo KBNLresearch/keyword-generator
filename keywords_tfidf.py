@@ -65,20 +65,10 @@ def print_keywords(keywords, dictionary):
 def export_keywords(keywords, dictionary):
     filename = int(time.time())
     f = open("data" + os.sep + "keywords" + os.sep + str(filename) + ".txt", "w+")
-    i = 1
-    query = ""
-    query2 = ""
-    for k in keywords:
-        f.write(dictionary.get(k[0]))
-        f.write("\n")
-        if(i > 1):
-            query += " OR " + dictionary.get(k[0])
-            query2 += " " + dictionary.get(k[0])
-        else:
-            query += dictionary.get(k[0])
-            query2 += dictionary.get(k[0])
-        i += 1
-    f.write("\n" + query + "\n\n" + query2)
+    keywords = [dictionary.get(k[0]) for k in keywords]
+    f.write("\n".join(keywords) + "\n\n")
+    f.write(" ".join(keywords) + "\n\n")
+    f.write(" OR ".join(keywords) + "\n")
     f.close()
 
 
