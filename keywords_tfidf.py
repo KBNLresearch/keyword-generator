@@ -59,7 +59,7 @@ def generate_keywords(tfidf_scores, num_keywords):
 def print_keywords(keywords, dictionary):
     i = 1
     for k in keywords:
-        print "(%i) %s [%s]" % (i, dictionary.get(k[0]), k[1])
+        print("(%i) %s [%s]" % (i, dictionary.get(k[0]), k[1]))
         i += 1
 
 
