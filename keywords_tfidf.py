@@ -63,14 +63,12 @@ def print_keywords(keywords, dictionary):
         i += 1
 
 
-def export_keywords(keywords, dictionary):
-    filename = int(time.time())
-    f = open("data" + os.sep + "keywords" + os.sep + str(filename) + ".txt", "w+")
-    keywords = [dictionary.get(k[0]) for k in keywords]
-    f.write("\n".join(keywords) + "\n\n")
-    f.write(" ".join(keywords) + "\n\n")
-    f.write(" OR ".join(keywords) + "\n")
-    f.close()
+def save_keywords(keywords, dictionary):
+    timestamp = int(time.time())
+    with open("data" + os.sep + "results" + os.sep + str(timestamp) + "_keywords" + ".csv", "w+") as f:
+        for k in keywords:
+            f.write(dictionary.get(k[0]) + "\t")
+            f.write(str(k[1]) + "\n")
 
 
 def main():
@@ -103,7 +101,7 @@ def main():
     keywords = generate_keywords(tfidf_scores, num_keywords)
     print("Keywords generated:")
     print_keywords(keywords, dictionary)
-    export_keywords(keywords, dictionary)
+    save_keywords(keywords, dictionary)
 
 
 if __name__ == "__main__":

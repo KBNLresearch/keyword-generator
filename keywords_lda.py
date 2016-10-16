@@ -104,29 +104,39 @@ def print_keywords(keywords):
         i += 1
 
 
-def export_keywords(keywords):
-    filename = int(time.time())
-    f = open("data" + os.sep + "keywords" + os.sep + str(filename) + ".txt", "w+")
-    keywords = [k[0] for k in keywords]
-    f.write("\n".join(keywords) + "\n\n")
-    f.write(" ".join(keywords) + "\n\n")
-    f.write(" OR ".join(keywords) + "\n")
-    f.close()
+def save_keywords(keywords):
+    timestamp = int(time.time())
+    with open("data" + os.sep + "results" + os.sep + str(timestamp) + "_keywords" + ".csv", "w+") as f:
+        for k in keywords:
+            f.write(k[0] + "\t")
+            f.write(str(k[1]) + "\n")
 
 
-def export_distributions(distributions):
-    filename = int(time.time())
-    f = open("data" + os.sep + "topic_distributions" + os.sep + str(filename) + ".csv", "w+")
-    f.write("Document")
-    for i in range(len(distributions[0])):
-        f.write(",Topic " + str(i + 1))
-    f.write("\n")
-    for dist in distributions:
-        f.write(str(distributions.index(dist)))
-        for topic in dist:
-            f.write("," + "{0:.5f}".format(topic[1]))
+def save_topics(topics):
+    timestamp = int(time.time())
+    with open("data" + os.sep + "results" + os.sep + str(timestamp) + "_topics" + ".csv", "w+") as f:
+        for i, topic in enumerate(topics):
+            f.write(str(i))
+            for t in topic:
+                f.write("\t" + t[1])
+            f.write("\n")
+            for t in topic:
+                f.write("\t" + str(t[0]))
+            f.write("\n")
+
+
+def save_distributions(distributions):
+    timestamp = int(time.time())
+    with open("data" + os.sep + "results" + os.sep + str(timestamp) + "_distributions" + ".csv", "w+") as f:
+        f.write("Document")
+        for i in range(len(distributions[0])):
+            f.write("\t" + "Topic " + str(i + 1))
         f.write("\n")
-    f.close()
+        for i, dist in enumerate(distributions):
+            f.write(str(i))
+            for topic in dist:
+                f.write("\t" + "{0:.5f}".format(topic[1]))
+            f.write("\n")
 
 
 def main():
@@ -195,8 +205,9 @@ def main():
     print("Keywords generated:")
     print_keywords(keywords)
 
-    export_keywords(keywords)
-    export_distributions(distributions)
+    save_keywords(keywords)
+    save_topics(topics)
+    save_distributions(distributions)
 
 
 if __name__ == "__main__":
