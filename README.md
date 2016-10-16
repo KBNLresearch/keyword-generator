@@ -16,7 +16,7 @@ The keyword generator, created in collaboration with KB Researcher-in-residence 
 - d : document length (the documents provided by the user will be split into parts containing the specified number of words; by default the documents will not be split.)
 - m : mallet path (full path to the [Mallet](http://mallet.cs.umass.edu) executable; if not provided, [Gensim](https://radimrehurek.com/gensim/)'s lda implementation will be used to generate topics.)
 
-Documents have to be placed in the data/documents folder, stop word lists in the data/stop_words folder. The keyword lists generated will be saved to a plain text file in the data/keywords folder. When using one of the topic modeling-based approaches, topic distributions per document will be saved in data/topic_distributions. 
+Documents have to be placed in the data/documents folder, stop word lists in the data/stop_words folder. The keyword lists, topics and topic distributions generated will be saved in the data/results folder.
 
 [Gensim](https://radimrehurek.com/gensim/) and [Mallet](http://mallet.cs.umass.edu) need to be installed locally.
 
