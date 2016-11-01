@@ -1,7 +1,7 @@
 Keyword Generator
 =================
 
-The keyword generator, created in collaboration with KB Researcher-in-residence Pim Huijnen, offers two methods to extract relevant keywords from a collection of sample texts provided by the user:
+The keyword generator, created in collaboration with KB Researcher-in-residence Pim Huijnen, is a command-line tool that offers two methods to extract relevant keywords from a collection of sample texts provided by the user:
 
 1) keywords_tfidf.py, extracting keywords based on tf-idf scores. Options:
  
@@ -16,9 +16,9 @@ The keyword generator, created in collaboration with KB Researcher-in-residence 
 - d : document length (the documents provided by the user will be split into parts containing the specified number of words; by default the documents will not be split.)
 - m : mallet path (full path to the [Mallet](http://mallet.cs.umass.edu) executable; if not provided, [Gensim](https://radimrehurek.com/gensim/)'s lda implementation will be used to generate topics.)
 
-Documents have to be placed in the data/documents folder, stop word lists in the data/stop_words folder. The keyword lists, topics and topic distributions generated will be saved in the data/results folder.
+Documents have to be placed in the data/documents folder, stop word lists in the data/stop_words folder. The keyword lists and any topics and topic distributions generated will be saved in the data/results folder.
 
-[Gensim](https://radimrehurek.com/gensim/) and [Mallet](http://mallet.cs.umass.edu) need to be installed locally.
+The Keyword Generator currently uses Python 2.7, and [Gensim](https://radimrehurek.com/gensim/) and [Mallet](http://mallet.cs.umass.edu) need to be installed locally.
 
 Some examples of commands:
 ```
