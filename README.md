@@ -1,7 +1,7 @@
 Keyword Generator
 =================
 
-The keyword generator, created in collaboration with KB Researcher-in-residence Pim Huijnen, is a command-line tool that offers two methods to extract relevant keywords from a collection of sample texts provided by the user:
+The Keyword Generator, created in collaboration with KB Researcher-in-residence Pim Huijnen, is a command-line tool that offers two methods to extract relevant keywords from a collection of sample texts provided by the user:
 
 1) keywords_tfidf.py, extracting keywords based on tf-idf scores. Options:
  
