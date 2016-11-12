@@ -24,85 +24,72 @@
 import argparse
 import codecs
 import corpus as cp
+import csv
 import gensim
 import math
 import operator
 import os
-import pprint
 import sys
 import time
 
 
 # Generate keywords
 def generate_keywords(tfidf_scores, num_keywords):
-    print("Generating keywords...")
+    print('Generating keywords...')
     keywords = {}
 
     # Sum of scores for token in all documents
     for doc in tfidf_scores:
-        for tuple in doc:
-            key = tuple[0]
-            score = tuple[1]
+        for t in doc:
+            key = t[0]
+            score = t[1]
             if key in keywords:
                 keywords[key] += score
             else:
                 keywords[key] = score
 
     # Sort keywords by highest score
-    sorted_keywords = sorted(keywords.items(), key=operator.itemgetter(1), reverse=True)
+    sorted_keywords = sorted(keywords.items(), key=operator.itemgetter(1),
+            reverse=True)
 
-    # Return only requested number of keywords
-    sorted_keywords = sorted_keywords[:num_keywords]
-    return sorted_keywords
+    return sorted_keywords[:num_keywords]
 
 
 def print_keywords(keywords, dictionary):
-    i = 1
-    for k in keywords:
-        print("(%i) %s [%s]" % (i, dictionary.get(k[0]), k[1]))
-        i += 1
+    print('Keywords generated:')
+    for i, k in enumerate(keywords):
+        print('(%i) %s [%s]' % (i + 1, dictionary.get(k[0]), k[1]))
 
 
 def save_keywords(keywords, dictionary):
     timestamp = int(time.time())
-    with open("data" + os.sep + "results" + os.sep + str(timestamp) + "_keywords" + ".csv", "w+") as f:
+    with open('data' + os.sep + 'results' + os.sep + str(timestamp) +
+            '_keywords' + '.csv', 'w+') as f:
+        csv_writer = csv.writer(f, delimiter='\t')
         for k in keywords:
-            f.write(dictionary.get(k[0]) + "\t")
-            f.write(str(k[1]) + "\n")
+            csv_writer.writerow([dictionary.get(k[0]).encode('utf-8'),
+                    str(k[1])])
 
 
-def main():
+if __name__ == '__main__':
+    if sys.stdout.encoding != 'UTF-8':
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout, 'strict')
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("-k", required=False, help="the number of keywords")
-    parser.add_argument("-d", required=False, help="document length")
+    parser.add_argument('-k', required=False, help='number of keywords')
+    parser.add_argument('-d', required=False, help='document length')
     args = parser.parse_args()
 
-    num_keywords = vars(args)["k"]
-    if not num_keywords:
-        num_keywords = 10
-    else:
-        num_keywords = int(num_keywords)
+    num_keywords = int(vars(args)['k']) if vars(args)['k'] else 10
+    doc_length = int(vars(args)['d']) if vars(args)['d'] else 0
 
-    doc_length = vars(args)["d"]
-    if not doc_length:
-        doc_length = 0
-    else:
-        doc_length = int(doc_length)
+    doc_folder = 'data' + os.sep + 'documents'
+    stop_folder = 'data' + os.sep + 'stop_words'
 
-    doc_folder = "data" + os.sep + "documents"
-    stop_folder = "data" + os.sep + "stop_words"
-
-    c = cp.MyCorpus(doc_folder, stop_folder, doc_length)
-    corpus, dictionary = c.load()
-
+    corpus, dictionary = cp.MyCorpus(doc_folder, stop_folder, doc_length).load()
     tfidf = gensim.models.TfidfModel(corpus)
     tfidf_scores = tfidf[corpus]
-
     keywords = generate_keywords(tfidf_scores, num_keywords)
-    print("Keywords generated:")
+
     print_keywords(keywords, dictionary)
     save_keywords(keywords, dictionary)
-
-
-if __name__ == "__main__":
-    main()
