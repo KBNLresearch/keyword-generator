@@ -64,7 +64,7 @@ def print_keywords(keywords, dictionary):
 def save_keywords(keywords, dictionary):
     timestamp = int(time.time())
     with open('data' + os.sep + 'results' + os.sep + str(timestamp) +
-            '_keywords' + '.csv', 'w+') as f:
+            '_keywords' + '.csv', 'wb') as f:
         csv_writer = csv.writer(f, delimiter='\t')
         for k in keywords:
             csv_writer.writerow([dictionary.get(k[0]).encode('utf-8'),

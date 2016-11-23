@@ -97,7 +97,7 @@ def print_keywords(keywords):
 def save_keywords(keywords):
     timestamp = int(time.time())
     with open('data' + os.sep + 'results' + os.sep + str(timestamp) +
-            '_keywords' + '.csv', 'w+') as f:
+            '_keywords' + '.csv', 'wb') as f:
         csv_writer = csv.writer(f, delimiter='\t')
         for k in keywords:
             csv_writer.writerow([k[0].encode('utf-8'), str(k[1])])
@@ -106,7 +106,7 @@ def save_keywords(keywords):
 def save_topics(topics):
     timestamp = int(time.time())
     with open('data' + os.sep + 'results' + os.sep + str(timestamp) +
-            '_topics' + '.csv', 'w+') as f:
+            '_topics' + '.csv', 'wb') as f:
         csv_writer = csv.writer(f, delimiter='\t')
         for topic in topics:
             csv_writer.writerow([t[1].encode('utf-8') for t in topic])
@@ -116,7 +116,7 @@ def save_topics(topics):
 def save_distributions(distributions):
     timestamp = int(time.time())
     with open('data' + os.sep + 'results' + os.sep + str(timestamp) +
-            '_distributions' + '.csv', 'w+') as f:
+            '_distributions' + '.csv', 'wb') as f:
         csv_writer = csv.writer(f, delimiter='\t')
         csv_writer.writerow(['Document'] + ['Topic ' + str(i + 1) for i in
                 range(len(distributions[0]))])
