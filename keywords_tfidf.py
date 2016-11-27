@@ -76,12 +76,13 @@ if __name__ == '__main__':
         sys.stdout = codecs.getwriter('utf-8')(sys.stdout, 'strict')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-k', required=False, help='number of keywords')
-    parser.add_argument('-d', required=False, help='document length')
+    parser.add_argument('-k', required=False, type=int, default=10,
+            help='number of keywords')
+    parser.add_argument('-d', required=False, type=int, default=0,
+            help='document length')
     args = parser.parse_args()
 
-    num_keywords = int(vars(args)['k']) if vars(args)['k'] else 10
-    doc_length = int(vars(args)['d']) if vars(args)['d'] else 0
+    num_keywords, doc_length = vars(args)['k'], vars(args)['d']
 
     doc_folder = 'data' + os.sep + 'documents'
     stop_folder = 'data' + os.sep + 'stop_words'

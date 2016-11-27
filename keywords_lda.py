@@ -130,17 +130,19 @@ if __name__ == '__main__':
         sys.stdout = codecs.getwriter('utf-8')(sys.stdout, 'strict')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', required=False, help='number of topics')
-    parser.add_argument('-w', required=False, help='number of words per topic')
-    parser.add_argument('-k', required=False, help='number of keywords')
-    parser.add_argument('-d', required=False, help='document length')
-    parser.add_argument('-m', required=False, help='Mallet path')
+    parser.add_argument('-t', required=False, type=int, default=10,
+            help='number of topics')
+    parser.add_argument('-w', required=False, type=int, default=10,
+            help='number of words per topic')
+    parser.add_argument('-k', required=False, type=int, default=10,
+            help='number of keywords')
+    parser.add_argument('-d', required=False, type=int, default=10,
+            help='document length')
+    parser.add_argument('-m', required=False, type=str, help='Mallet path')
     args = parser.parse_args()
 
-    num_topics = int(vars(args)['t']) if vars(args)['t'] else 10
-    num_words = int(vars(args)['w']) if vars(args)['w'] else 10
-    num_keywords = int(vars(args)['k']) if vars(args)['k'] else 10
-    doc_length = int(vars(args)['d']) if vars(args)['d'] else 0
+    num_keywords, doc_length = vars(args)['k'], vars(args)['d']
+    num_topics, num_words = vars(args)['t'], vars(args)['w']
     mallet_path = vars(args)['m']
 
     doc_folder = 'data' + os.sep + 'documents'
